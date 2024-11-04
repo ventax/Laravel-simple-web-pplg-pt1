@@ -10,9 +10,16 @@ class CategoryController extends Controller
 {
     public function create(Request $request)
     {
-        Category::create(attribute: [
-            'title' => $request->title,
-            'description' => $request->description,
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
         ]);
+
+        $category = new Category();
+        $category->title = $request->title;
+        $category->description = $request->description;
+        $category->save();
+        return redirect('admin/categories')
+            ->with('success', 'Category created successfully');
     }
 }

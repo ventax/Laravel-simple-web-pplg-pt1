@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -12,10 +13,11 @@ Route::get('admin', function () {
 })->middleware('auth');
 
 Route::get('admin/categories', function () {
-    return view(view: 'admin.categories.index');
+    $categories = \App\Models\Category::all();
+    return view('admin.categories.index', ['categories' => $categories]);
 })->middleware('auth');
 
-Route::post('admin/category', [App\Http\Controllers\CategoryController::class, 'create']);
+Route::post('admin/category', [\App\Http\Controllers\CategoryController::class, 'create']);
 
 Route::get('login', function () {
     return view('admin.login');
